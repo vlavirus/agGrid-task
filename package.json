@@ -7,7 +7,19 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "pre-commit": "lint-staged --relative",
+    "postinstall": "husky install && husky add .husky/pre-commit 'npm run pre-commit'"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged --relative"
+    }
+  },
+  "lint-staged": {
+    "*.{js,ts}": [
+      "eslint --fix"
+    ]
   },
   "private": true,
   "dependencies": {
@@ -19,17 +31,35 @@
     "@angular/platform-browser": "~11.0.9",
     "@angular/platform-browser-dynamic": "~11.0.9",
     "@angular/router": "~11.0.9",
+    "ag-grid-angular": "^25.3.0",
+    "ag-grid-community": "^25.3.0",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.2"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.1100.7",
+    "@angular-eslint/builder": "1.2.0",
+    "@angular-eslint/eslint-plugin": "1.2.0",
+    "@angular-eslint/eslint-plugin-template": "1.2.0",
+    "@angular-eslint/schematics": "1.2.0",
+    "@angular-eslint/template-parser": "1.2.0",
     "@angular/cli": "~11.0.7",
     "@angular/compiler-cli": "~11.0.9",
     "@types/jasmine": "~3.6.0",
     "@types/node": "^12.11.1",
+    "@typescript-eslint/eslint-plugin": "4.3.0",
+    "@typescript-eslint/parser": "4.3.0",
     "codelyzer": "^6.0.0",
+    "eslint": "^7.6.0",
+    "eslint-config-airbnb-typescript": "^12.3.1",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-jasmine": "^4.1.2",
+    "eslint-plugin-jsdoc": "30.7.6",
+    "eslint-plugin-prefer-arrow": "1.2.2",
+    "eslint-plugin-prettier": "^3.4.0",
+    "husky": "^7.0.1",
     "jasmine-core": "~3.6.0",
     "jasmine-spec-reporter": "~5.0.0",
     "karma": "~5.1.0",
@@ -37,6 +67,8 @@
     "karma-coverage": "~2.0.3",
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "^1.5.0",
+    "lint-staged": "^11.1.1",
+    "prettier": "^2.3.2",
     "protractor": "~7.0.0",
     "ts-node": "~8.3.0",
     "tslint": "~6.1.0",

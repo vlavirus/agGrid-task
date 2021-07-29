@@ -5,7 +5,7 @@ module.exports = {
       files: ["*.component.html"],
       extends: ["plugin:@angular-eslint/template/recommended"],
       rules: {
-        "max-len": ["error", { "code": 140 }]
+        "max-len": ["error", {"code": 140}]
       }
     },
     {
@@ -13,38 +13,38 @@ module.exports = {
       extends: ["plugin:@angular-eslint/template/process-inline-templates"]
     },
     {
-      files: ['src/**/*.spec.ts', 'src/**/*.d.ts'],
+      files: ["src/**/*.spec.ts", "src/**/*.d.ts"],
       parserOptions: {
-        project: './src/tsconfig.spec.json',
+        project: "./src/tsconfig.spec.json",
       },
       // Правила для линтера
-      extends: ['plugin:jasmine/recommended'],
+      extends: ["plugin:jasmine/recommended"],
       // Плагин для запуска правил
-      plugins: ['jasmine'],
-      env: { jasmine: true },
-      // Отключим правило 'no-unused-vars'
+      plugins: ["jasmine"],
+      env: {jasmine: true},
+      // Отключим правило "no-unused-vars"
       rules: {
-        '@typescript-eslint/no-unused-vars': 'off',
+        "@typescript-eslint/no-unused-vars": "off",
       },
     },
     {
       files: ["*.ts"],
       parserOptions: {
         project: [
-          'tsconfig.*?.json'
+          "tsconfig.*?.json"
         ],
         createDefaultProgram: true
       },
       extends: [
-        'plugin:@angular-eslint/recommended',
+        "plugin:@angular-eslint/recommended",
         // Стайл гайд AirBnB
-        'airbnb-typescript/base',
-        'prettier',
-        'plugin:prettier/recommended'
+        "airbnb-typescript/base",
+        "prettier",
+        "plugin:prettier/recommended"
       ],
       rules: {
-        'import/no-extraneous-dependencies': ['error', {'devDependencies': true}],
-        'import/prefer-default-export': 'off'
+        "import/no-extraneous-dependencies": ["error", {"devDependencies": true}],
+        "import/prefer-default-export": "off"
       }
     },
   ]

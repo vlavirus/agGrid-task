@@ -5,9 +5,9 @@ import { map } from 'rxjs/operators';
 import { YoutubeApiService } from '../services/youtube-api.service';
 import { GridImgComponent } from './grid-img/grid-img.component';
 import { GridCheckboxComponent } from './grid-checkbox/grid-checkbox.component';
-import { GridStatusBarComponent } from './grid-status-bar/grid-status-bar.component';
 
 import { mockData } from './mockData';
+import 'ag-grid-enterprise';
 
 @Component({
   selector: 'app-grid',
@@ -61,7 +61,19 @@ export class GridComponent implements OnInit {
   };
 
   statusBar = {
-    statusPanels: [{ statusPanel: 'clickableStatusBarComponent' }],
+    statusPanels: [
+      {
+        statusPanel: 'agTotalAndFilteredRowCountComponent',
+        align: 'left',
+      },
+      {
+        statusPanel: 'agTotalRowCountComponent',
+        align: 'center',
+      },
+      { statusPanel: 'agFilteredRowCountComponent' },
+      { statusPanel: 'agSelectedRowCountComponent' },
+      { statusPanel: 'agAggregationComponent' },
+    ],
   };
 
   public isFullWidthCell: any;
@@ -79,7 +91,7 @@ export class GridComponent implements OnInit {
 
     this.frameworkComponents = {
       checkboxRenderer: GridCheckboxComponent,
-      clickableStatusBarComponent: GridStatusBarComponent,
+      // clickableStatusBarComponent: GridStatusBarComponent,
     };
 
     this.fullWidthCellRenderer = 'fullWidthCellRenderer';

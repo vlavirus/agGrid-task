@@ -25,7 +25,7 @@ import { GridStatusBarComponent } from './shared/grid/grid-status-bar/grid-statu
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
-    // AllModules,
+
     AgGridModule.withComponents([GridStatusBarComponent]),
   ],
   providers: [],

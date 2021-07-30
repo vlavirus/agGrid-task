@@ -1,13 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { YoutubeApiService } from '../services/youtube-api.service';
 import { GridImgComponent } from './grid-img/grid-img.component';
 import { GridCheckboxComponent } from './grid-checkbox/grid-checkbox.component';
+import 'ag-grid-enterprise';
 
 import { mockData } from './mockData';
-import 'ag-grid-enterprise';
+import { AgGridAngular } from 'ag-grid-angular';
+import { GridCountBarComponent } from './grid-count-bar/grid-count-bar.component';
+import { GridToggleButtonComponent } from './grid-toggle-button/grid-toggle-button.component';
+import { GridHeaderCheckboxComponent } from './grid-header-checkbox/grid-header-checkbox.component';
 
 @Component({
   selector: 'app-grid',
@@ -16,6 +20,8 @@ import 'ag-grid-enterprise';
 })
 export class GridComponent implements OnInit {
   frameworkComponents: any;
+
+  @ViewChild('agGrid') agGrid: AgGridAngular | undefined;
 
   public gridApi: any;
 
@@ -28,9 +34,9 @@ export class GridComponent implements OnInit {
       headerName: 'Athlete',
       field: 'athlete',
       minWidth: 180,
-      headerCheckboxSelection: true,
-      headerCheckboxSelectionFilteredOnly: true,
-      checkboxSelection: true,
+      // headerCheckboxSelection: true,
+      // headerCheckboxSelectionFilteredOnly: true,
+      // checkboxSelection: true,
     },
     {
       field: 'thumbnails',
@@ -58,21 +64,25 @@ export class GridComponent implements OnInit {
     flex: 1,
     minWidth: 100,
     resizable: true,
+    headerCheckboxSelection: this.isFirstColumn,
+    checkboxSelection: this.isFirstColumn,
   };
 
   statusBar = {
     statusPanels: [
       {
-        statusPanel: 'agTotalAndFilteredRowCountComponent',
+        statusPanel: 'agTotalRowCountComponent',
         align: 'left',
       },
       {
-        statusPanel: 'agTotalRowCountComponent',
-        align: 'center',
+        statusPanel: 'statusBarComponent',
+        key: 'statusBarCompKey',
+        align: 'left',
       },
-      { statusPanel: 'agFilteredRowCountComponent' },
-      { statusPanel: 'agSelectedRowCountComponent' },
-      { statusPanel: 'agAggregationComponent' },
+      {
+        statusPanel: 'clickableStatusBarComponent',
+        align: 'right',
+      },
     ],
   };
 
@@ -85,13 +95,15 @@ export class GridComponent implements OnInit {
   constructor(private apiService: YoutubeApiService) {}
 
   ngOnInit(): void {
-    this.isFullWidthCell = function(rowNode: any) {
+    this.isFullWidthCell = function (rowNode: any) {
       return this.isFullWidth(rowNode.data);
     };
 
     this.frameworkComponents = {
       checkboxRenderer: GridCheckboxComponent,
-      // clickableStatusBarComponent: GridStatusBarComponent,
+      statusBarComponent: GridCountBarComponent,
+      clickableStatusBarComponent: GridToggleButtonComponent,
+      agColumnHeader: GridHeaderCheckboxComponent,
     };
 
     this.fullWidthCellRenderer = 'fullWidthCellRenderer';
@@ -118,5 +130,15 @@ export class GridComponent implements OnInit {
   onGridReady(params: any): void {
     this.gridApi = params.api;
     this.gridColumnApi = params.columnApi;
+  }
+
+  isFirstColumn(params: any): any {
+    const displayedColumns = params.columnApi.getAllDisplayedColumns();
+    const thisIsFirstColumn = displayedColumns[0] === params.column;
+    return thisIsFirstColumn;
+  }
+
+  showCountCheckedRows(): void {
+    // this.agGrid?.api.
   }
 }

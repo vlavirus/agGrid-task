@@ -19,6 +19,7 @@ import { GridToggleButtonComponent } from './shared/grid/grid-toggle-button/grid
 import { GridHeaderCheckboxComponent } from './shared/grid/grid-header-checkbox/grid-header-checkbox.component';
 import { environment } from '../environments/environment';
 import { CoreModule } from './store/core.module';
+import {YoutubeDataPipe} from './shared/pipes/youtube-data.pipe';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { CoreModule } from './store/core.module';
     GridCountBarComponent,
     GridToggleButtonComponent,
     GridHeaderCheckboxComponent,
+    YoutubeDataPipe
   ],
   imports: [
     BrowserModule,

@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import { IStatusPanelParams } from '@ag-grid-community/all-modules';
 import { Store } from '@ngrx/store';
 
-import { SetOnToggleCheckbox } from 'src/app/store/core.actions';
 import { State } from 'src/app/store/core.reducer';
+import { SetOnToggleCheckboxView } from 'src/app/store/core.actions';
 
 @Component({
   selector: 'app-grid-toggle-button',
@@ -20,6 +20,6 @@ export class GridToggleButtonComponent {
   }
 
   onClick(): void {
-    this.store.dispatch(new SetOnToggleCheckbox());
+    this.store.dispatch(new SetOnToggleCheckboxView());
   }
 }

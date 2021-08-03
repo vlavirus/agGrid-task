@@ -1,20 +1,25 @@
 import * as coreActions from './core.actions';
 
 export interface State {
-  toggleCheckbox: boolean;
+  toggleCheckboxView: boolean;
+  toggleCheckboxState: boolean;
 }
 
 export const INIT_STATE: State = {
-  toggleCheckbox: true,
+  toggleCheckboxView: true,
+  toggleCheckboxState: false,
 };
 
 export function coreReducer(state: State = INIT_STATE, actions: coreActions.Actions): State {
   switch (actions.type) {
-    case coreActions.ON_TOGGLE_CHECKBOX:
-      return { ...state, toggleCheckbox: !state.toggleCheckbox };
+    case coreActions.ON_TOGGLE_CHECKBOX_VIEW:
+      return { ...state, toggleCheckboxView: !state.toggleCheckboxView };
+    case coreActions.ON_TOGGLE_CHECKBOX_STATE:
+      return { ...state, toggleCheckboxState: actions.payload };
     default:
       return state;
   }
 }
 
-export const getToggleCheckbox = (state: State): boolean => state.toggleCheckbox;
+export const getToggleCheckboxView = (state: State): boolean => state.toggleCheckboxView;
+export const getToggleCheckboxState = (state: State): boolean => state.toggleCheckboxState;

@@ -1,15 +1,16 @@
 <ag-grid-angular
   #agGrid
   style="width: 100%; height: 100%;"
-  id="myGrid"
   class="ag-theme-alpine"
+  [gridOptions]="options"
   [statusBar]="statusBar"
   [columnDefs]="columnDefs"
   [defaultColDef]="defaultColDef"
   [suppressRowClickSelection]="true"
-  [rowData]="rowData$ | async"
   [rowSelection]="rowSelection"
   [frameworkComponents]="frameworkComponents"
+  [rowData]="rowData$ | async"
+  [getContextMenuItems]="getContextMenuItems"
+  (selectionChanged)="selectionChanged($event)"
   (gridReady)="onGridReady($event)"
 ></ag-grid-angular>
-<!--<button (click)="showCountCheckedRows()">Show Selected Rows</button>-->

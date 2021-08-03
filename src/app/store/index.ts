@@ -11,4 +11,5 @@ export const reducers = {
 
 export const getCoreState = (state: State) => state.core;
 
-export const getToggleCheckbox = createSelector(getCoreState, fromCore.getToggleCheckbox);
+export const getToggleCheckboxView = createSelector(getCoreState, fromCore.getToggleCheckboxView);
+export const getToggleCheckboxState = createSelector(getCoreState, fromCore.getToggleCheckboxState);

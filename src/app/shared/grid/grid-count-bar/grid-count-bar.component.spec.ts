@@ -21,4 +21,16 @@ describe('GridCountBarComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should render visible', () => {
+    const app = fixture.componentInstance;
+
+    expect(app.visible).toBeTruthy();
+  });
+
+  it('should contain <p>', () => {
+    fixture.detectChanges();
+
+    expect(fixture.nativeElement.querySelector('p').innerText).toBe('Selected records:');
+  });
 });

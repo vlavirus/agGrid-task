@@ -21,4 +21,10 @@ describe('GridImgComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should render img', () => {
+    fixture.detectChanges();
+
+    expect(fixture.nativeElement.querySelector('img')).toBeTruthy();
+  });
 });

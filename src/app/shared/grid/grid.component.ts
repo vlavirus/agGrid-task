@@ -1,31 +1,37 @@
-import { Component, OnInit } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Observable, Subject } from 'rxjs';
 import 'ag-grid-enterprise';
 import { Store } from '@ngrx/store';
-import {GetContextMenuItemsParams, ICellRendererParams} from '@ag-grid-community/core';
+import { GetContextMenuItemsParams } from '@ag-grid-community/core';
 
 import { GridApi } from 'ag-grid-community/dist/lib/gridApi';
 import { ColumnApi } from 'ag-grid-community/dist/lib/columnController/columnApi';
-import { getToggleCheckboxView, State } from 'src/app/store';
+import { getGridItems, getToggleCheckboxView, State } from 'src/app/store';
 import { SetOnToggleCheckboxState } from 'src/app/store/core.actions';
+import { takeUntil } from 'rxjs/operators';
 import { YoutubeApiService } from '../services/youtube-api.service';
-import { mockData } from './mockData';
-import { GridImgComponent } from './grid-img/grid-img.component';
+
 import { GridCountBarComponent } from './grid-count-bar/grid-count-bar.component';
 import { GridToggleButtonComponent } from './grid-toggle-button/grid-toggle-button.component';
-import { GridHeaderCheckboxComponent } from './grid-header-checkbox/grid-header-checkbox.component';
-import { YoutubeDataPipe } from '../pipes/youtube-data.pipe';
+import { ApiTransformDataModel } from '../models/api-transform-data.model';
+import {
+  checkBoxConst,
+  columnDefsConst,
+  defaultColDefConst,
+  statusBarConst,
+} from './grid.constnts';
 
 @Component({
   selector: 'app-grid',
   templateUrl: './grid.component.html',
   styleUrls: ['./grid.component.scss'],
 })
-export class GridComponent implements OnInit {
+export class GridComponent implements OnInit, OnDestroy {
   public gridApi: GridApi | undefined;
 
   public gridColumnApi: ColumnApi | undefined;
+
+  private ngUnsubscribe$ = new Subject<void>();
 
   public frameworkComponents = {
     statusBarComponent: GridCountBarComponent,
@@ -34,66 +40,34 @@ export class GridComponent implements OnInit {
 
   public rowSelection = 'multiple';
 
-  private onToggleCheckBox$: Observable<boolean> | undefined;
+  private checkBox = checkBoxConst;
 
-  checkBox = {
-    field: 'toggle-checkbox',
-    headerComponentFramework: GridHeaderCheckboxComponent,
-    checkboxSelection: true,
-  };
+  public columnDefs = columnDefsConst;
 
-  columnDefs = [
-    {
-      field: 'thumbnails',
-      headerName: '',
-      width: 'fit-content',
-      sortable: false,
-      autoHeight: true,
-      cellRendererFramework: GridImgComponent,
-    },
-    { field: 'publishedAt', headerName: 'Published on' },
-    {
-      field: 'title',
-      headerName: 'Video Title',
-      cellRenderer: (params: ICellRendererParams) => {
-        const { title } = params.data;
-        const { videoId } = params.data;
-        const newLink = `<a href= https://www.youtube.com/watch?v=${videoId} target="_blank">${title}</a>`;
-        return newLink;
-      },
-    },
-    { field: 'description', headerName: 'Description' },
-  ];
+  public defaultColDef = defaultColDefConst;
 
-  defaultColDef = {
-    flex: 1,
-    minWidth: 100,
-    resizable: true,
-  };
+  public statusBar = statusBarConst;
 
-  statusBar = {
-    statusPanels: [
-      {
-        statusPanel: 'agTotalRowCountComponent',
-        align: 'left',
-      },
-      {
-        statusPanel: 'statusBarComponent',
-        key: 'statusBarCompKey',
-        align: 'left',
-      },
-      {
-        statusPanel: 'clickableStatusBarComponent',
-        align: 'right',
-      },
-    ],
-  };
-
-  options = {
+  public options = {
     applyColumnDefOrder: true,
   };
 
-  rowData$: Observable<any[]> | undefined;
+  public rowData$: Observable<ApiTransformDataModel[]> | undefined;
+
+  constructor(private apiService: YoutubeApiService, private store: Store<State>) {}
+
+  ngOnInit(): void {
+    this.store
+      .select(getToggleCheckboxView)
+      .pipe(takeUntil(this.ngUnsubscribe$))
+      .subscribe((res) => {
+        // @ts-ignore
+        res ? (this.columnDefs = [this.checkBox, ...this.columnDefs])
+          : (this.columnDefs = this.columnDefs.slice(1));
+      });
+
+    this.rowData$ = this.store.select(getGridItems);
+  }
 
   getContextMenuItems(params: GetContextMenuItemsParams): object | undefined {
     const { videoId } = params.node.data;
@@ -109,42 +83,11 @@ export class GridComponent implements OnInit {
         name: 'Open in new tab',
         action: () => {
           window.open(`https://www.youtube.com/watch?v=${videoId}`, '_blank');
+        },
       },
-    }];
+    ];
 
     return colId === 'title' ? videoTitleItems : params.defaultItems;
-  }
-
-  constructor(private apiService: YoutubeApiService, private store: Store<State>) {}
-
-  ngOnInit(): void {
-    this.onToggleCheckBox$ = this.store.select(getToggleCheckboxView);
-    this.onToggleCheckBox$.subscribe((res) => {
-      // @ts-ignore
-      res ? (this.columnDefs = [this.checkBox, ...this.columnDefs])
-        : (this.columnDefs = this.columnDefs.slice(1));
-    });
-
-    this.frameworkComponents = {
-      statusBarComponent: GridCountBarComponent,
-      clickableStatusBarComponent: GridToggleButtonComponent,
-    };
-
-    // this.rowData$ = this.apiService.getData()
-    this.rowData$ = of(mockData).pipe(
-      map((res) =>
-        res.items.map((item: any) => {
-          return {
-            thumbnails: item.snippet.thumbnails.default.url,
-            publishedAt: item.snippet.publishedAt,
-            title: item.snippet.title,
-            description: item.snippet.description,
-            videoId: item.id.videoId,
-          };
-        }),
-      ),
-      // YoutubeDataPipe()
-    );
   }
 
   onGridReady(params: any): void {
@@ -156,5 +99,10 @@ export class GridComponent implements OnInit {
     params.api.getDisplayedRowCount() !== params.api.getSelectedRows().length
       ? this.store.dispatch(new SetOnToggleCheckboxState(false))
       : this.store.dispatch(new SetOnToggleCheckboxState(true));
+  }
+
+  ngOnDestroy(): void {
+    this.ngUnsubscribe$.next();
+    this.ngUnsubscribe$.complete();
   }
 }

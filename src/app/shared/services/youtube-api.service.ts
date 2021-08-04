@@ -12,7 +12,7 @@ export class YoutubeApiService {
 
   constructor(private http: HttpClient) {}
 
-  getData(): Observable<any> {
+  getData<T>(): Observable<any | T> {
     return this.http.get(this.apiUrl);
   }
 }

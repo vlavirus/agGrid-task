@@ -5,6 +5,7 @@ import { takeUntil } from 'rxjs/operators';
 
 import { State, getToggleCheckboxState } from 'src/app/store';
 import { SetOnToggleCheckboxState } from 'src/app/store/core.actions';
+import { IStatusPanelParams } from '@ag-grid-community/all-modules';
 
 @Component({
   selector: 'app-grid-header-checkbox',
@@ -12,7 +13,7 @@ import { SetOnToggleCheckboxState } from 'src/app/store/core.actions';
   styleUrls: ['./grid-header-checkbox.component.scss'],
 })
 export class GridHeaderCheckboxComponent implements OnInit, OnDestroy {
-  private params: any;
+  private params: IStatusPanelParams | undefined;
 
   public checkboxState = false;
 
@@ -29,13 +30,13 @@ export class GridHeaderCheckboxComponent implements OnInit, OnDestroy {
       });
   }
 
-  agInit(params: any): void {
+  agInit(params: IStatusPanelParams): void {
     this.params = params;
   }
 
   fieldsChange(values: boolean): void {
     this.onToggleCheckboxState(values);
-    values ? this.params.api.selectAll() : this.params.api.deselectAll();
+    values ? this.params?.api.selectAll() : this.params?.api.deselectAll();
   }
 
   onToggleCheckboxState(values: boolean): void {

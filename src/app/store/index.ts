@@ -13,3 +13,4 @@ export const getCoreState = (state: State) => state.core;
 
 export const getToggleCheckboxView = createSelector(getCoreState, fromCore.getToggleCheckboxView);
 export const getToggleCheckboxState = createSelector(getCoreState, fromCore.getToggleCheckboxState);
+export const getGridItems = createSelector(getCoreState, fromCore.getGridItems);

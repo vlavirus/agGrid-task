@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { StoreModule } from '@ngrx/store';
 import { GridToggleButtonComponent } from './grid-toggle-button.component';
 
 describe('GridToggleButtonComponent', () => {
@@ -9,6 +10,8 @@ describe('GridToggleButtonComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [GridToggleButtonComponent],
+      providers: [],
+      imports: [StoreModule.forRoot({}, {})],
     }).compileComponents();
   });
 

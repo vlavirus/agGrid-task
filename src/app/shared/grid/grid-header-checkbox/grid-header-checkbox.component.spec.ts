@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { StoreModule } from '@ngrx/store';
 import { GridHeaderCheckboxComponent } from './grid-header-checkbox.component';
 
 describe('GridHeaderCheckboxComponent', () => {
@@ -9,6 +10,7 @@ describe('GridHeaderCheckboxComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [GridHeaderCheckboxComponent],
+      imports: [StoreModule.forRoot({}, {})],
     }).compileComponents();
   });
 
@@ -20,5 +22,11 @@ describe('GridHeaderCheckboxComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should render input', () => {
+    fixture.detectChanges();
+
+    expect(fixture.nativeElement.querySelector('input')).toBeTruthy();
   });
 });

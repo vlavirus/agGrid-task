@@ -1,6 +1,6 @@
-export interface YoutubeDataModel {
+export interface ApiTransformDataModel {
   thumbnails: string;
-  publishedAt: string;
+  publishedAt: Date | string;
   title: string;
   description: string;
   videoId: string;

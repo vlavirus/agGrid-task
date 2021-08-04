@@ -8,7 +8,7 @@ import { ICellRendererParams } from '@ag-grid-community/core';
   styleUrls: ['./grid-img.component.scss'],
 })
 export class GridImgComponent implements ICellRendererAngularComp {
-  params: any;
+  params: ICellRendererParams | undefined;
 
   agInit(params: any): void {
     this.params = params;

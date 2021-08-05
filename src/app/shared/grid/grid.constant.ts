@@ -24,6 +24,8 @@ export const defaultColDefConst = {
   flex: 1,
   minWidth: 100,
   resizable: true,
+  wrapText: true,
+  autoHeight: true,
 };
 
 export const optionsConst = {
@@ -37,6 +39,7 @@ export const checkBoxConst = {
 };
 
 export const columnDefsConst = [
+  checkBoxConst,
   {
     field: 'thumbnails',
     headerName: '',

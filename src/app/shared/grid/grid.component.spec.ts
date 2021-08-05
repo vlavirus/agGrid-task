@@ -1,34 +1,73 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { Store, StoreModule } from '@ngrx/store';
-import { of } from 'rxjs';
+import { StoreModule } from '@ngrx/store';
+import { provideMockStore } from '@ngrx/store/testing';
 
 import { YoutubeApiService } from '../services/youtube-api.service';
 import { GridComponent } from './grid.component';
-import { statusBarConst } from './grid.constnts';
+import { columnDefsConst, statusBarConst } from './grid.constant';
+import { GridService } from './grid.service';
 
 describe('GridComponent', () => {
   let component: GridComponent;
   let fixture: ComponentFixture<GridComponent>;
-  const storeMock = jasmine.createSpyObj('Store', ['select']);
-  storeMock.select.and.returnValue(
-    of({
-      toggleCheckboxView: true,
-      gridItems: [],
-      toggleCheckboxState: false,
-    }),
-  );
+  let gridService: GridService;
+
+  const mockParamsRowsEqual = {
+    api: {
+      getDisplayedRowCount: () => 50,
+      getSelectedRows: () => new Array(50),
+    },
+  };
+
+  const mockGridItem = {
+    thumbnails: 'test',
+    publishedAt: new Date(),
+    title: 'test',
+    description: 'test',
+    videoId: 'test',
+  };
+
+
+  const mockGridParams = {
+    api: {
+      api: () => 50,
+      columnApi: () => new Array(50),
+    },
+  };
+
+  const mockGridService = jasmine.createSpyObj('gridService', [
+    'getToggleCheckboxView',
+    'getRowData',
+    'selectionChanged',
+  ]);
+
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [HttpClientTestingModule, StoreModule.forRoot({}, {})],
       declarations: [GridComponent],
-      providers: [YoutubeApiService, { provide: Store, useValue: storeMock }],
-    }).compileComponents();
+      providers: [
+        YoutubeApiService,
+        HttpClientTestingModule,
+        {
+          provide: GridService,
+          useValue: mockGridService,
+        },
+        provideMockStore({
+          initialState: {
+            toggleCheckboxView: true,
+            gridItems: [mockGridItem],
+            toggleCheckboxState: false,
+          },
+        }),
+      ],
+    }).overrideTemplate(GridComponent, `<div></div>`);
   });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(GridComponent);
     component = fixture.componentInstance;
+    gridService = TestBed.inject(GridService);
     fixture.detectChanges();
   });
 
@@ -37,31 +76,26 @@ describe('GridComponent', () => {
   });
 
   it('should initialize rowSelection', () => {
-    const app = fixture.componentInstance;
-
-    expect(app.rowSelection).toEqual('multiple');
+    expect(component.rowSelection).toEqual('multiple');
   });
 
-  // it('should initialize columnDefs', () => {
-  //   const app = fixture.componentInstance;
-  //   expect(app.columnDefs).toEqual(columnDefsConst);
-  // });
+  it('should initialize columnDefs', () => {
+    expect(component.columnDefs).toEqual(columnDefsConst);
+  });
 
   it('should initialize statusBarConst', () => {
-    const app = fixture.componentInstance;
-
-    expect(app.statusBar).toEqual(statusBarConst);
+    expect(component.statusBar).toEqual(statusBarConst);
   });
 
-  // it('should return default videoTitleItems', () => {
-  //   const app = fixture.componentInstance;
-  //   const videoTitleItems = [
-  //     'copy',
-  //     'copyWithHeaders',
-  //     'paste',
-  //     'separator',
-  //     'export'
-  //   ];
-  //   expect(app.getContextMenuItems()).toEqual(videoTitleItems);
-  // });
+  it('onGridReady() should init gridApi', () => {
+    component.onGridReady(mockGridParams);
+
+    expect(component.gridApi).toBeTruthy();
+  });
+
+  it('onSelectionChanged() should call selectionChanged from gridService', () => {
+    gridService.selectionChanged(mockParamsRowsEqual);
+
+    expect(gridService.selectionChanged).toHaveBeenCalled();
+  });
 });

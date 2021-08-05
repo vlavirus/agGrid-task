@@ -1,12 +1,13 @@
 import { Observable, of } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, filter, first, map, startWith, switchMap, tap } from 'rxjs/operators';
+import { catchError, filter, first, map, startWith, switchMap } from 'rxjs/operators';
 
 import { YoutubeApiService } from '../shared/services/youtube-api.service';
 import { youtubeDataOperator } from '../shared/operators/youtube-data-operator';
-import { LoadGridItems } from './core.actions';
+
 import * as coreActions from './core.actions';
+import { mockData } from '../shared/grid/mockData';
 
 @Injectable()
 export class CoreEffect {
@@ -22,10 +23,18 @@ export class CoreEffect {
           first(),
           youtubeDataOperator(),
           map((res) => {
-            debugger;
             return new coreActions.LoadGridItemsSuccess(res);
           }),
-          catchError((err) => of(new coreActions.LoadGridItemsFail(err))),
+          catchError(() =>
+            of(mockData).pipe(
+              filter((res) => !!res),
+              first(),
+              youtubeDataOperator(),
+              map((res) => {
+                return new coreActions.LoadGridItemsSuccess(res);
+              }),
+            ),
+          ),
         );
       }),
     );

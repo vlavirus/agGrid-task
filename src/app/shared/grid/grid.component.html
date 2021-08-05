@@ -10,6 +10,6 @@
   [frameworkComponents]="frameworkComponents"
   [rowData]="rowData$ | async"
   [getContextMenuItems]="getContextMenuItems"
-  (selectionChanged)="selectionChanged($event)"
+  (selectionChanged)="onSelectionChanged($event)"
   (gridReady)="onGridReady($event)"
 ></ag-grid-angular>

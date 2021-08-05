@@ -23,7 +23,6 @@ export function coreReducer(state: State = INIT_STATE, actions: coreActions.Acti
     case coreActions.LOAD_GRID_ITEMS_SUCCESS:
       return { ...state, gridItems: actions.payload } as State;
     case LOAD_GRID_ITEMS_FAIL:
-      console.log(actions.payload);
       return { ...state } as State;
     default:
       return state;

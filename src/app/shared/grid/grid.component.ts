@@ -52,7 +52,9 @@ export class GridComponent implements OnInit, OnDestroy {
     this.gridService
       .getToggleCheckboxView()
       .pipe(takeUntil(this.ngUnsubscribe$))
-      .subscribe((res) => res ? (this.columnDefs = columnDefsConst) : (this.columnDefs = this.columnDefs.slice(1)));
+      .subscribe((res) =>
+        res ? (this.columnDefs = columnDefsConst) : (this.columnDefs = this.columnDefs.slice(1)),
+      );
 
     this.rowData$ = this.gridService.getRowData();
   }

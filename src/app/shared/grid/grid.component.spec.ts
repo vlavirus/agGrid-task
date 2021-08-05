@@ -28,7 +28,6 @@ describe('GridComponent', () => {
     videoId: 'test',
   };
 
-
   const mockGridParams = {
     api: {
       api: () => 50,

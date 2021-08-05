@@ -5,7 +5,9 @@ import { ApiItemModal } from '../models/api-item.modal';
 import { ApiDataModel } from '../models/api-data.model';
 import { transformDate } from './date-transform';
 
-export const youtubeDataOperator = () => <T>(source: Observable<ApiDataModel>): Observable<ApiTransformDataModel[]> => {
+export const youtubeDataOperator =
+  () =>
+  <T>(source: Observable<ApiDataModel>): Observable<ApiTransformDataModel[]> => {
     return source.pipe(
       map((res: ApiDataModel) => {
         return res.items.map((item: ApiItemModal) => {

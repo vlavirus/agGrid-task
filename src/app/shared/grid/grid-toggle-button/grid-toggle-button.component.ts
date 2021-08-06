@@ -12,6 +12,7 @@ import { SetOnToggleCheckboxView } from 'src/app/store/core.actions';
 })
 export class GridToggleButtonComponent {
   private params: IStatusPanelParams | undefined;
+  public styleProperty = true;
 
   constructor(private store: Store<State>) {}
 
@@ -20,6 +21,11 @@ export class GridToggleButtonComponent {
   }
 
   onClick(): void {
+    this.onToggleStyleProperty();
     this.store.dispatch(new SetOnToggleCheckboxView());
+  }
+
+  onToggleStyleProperty(): void {
+    this.styleProperty = !this.styleProperty;
   }
 }

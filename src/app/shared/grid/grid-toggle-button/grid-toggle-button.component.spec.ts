@@ -63,4 +63,10 @@ describe('GridToggleButtonComponent', () => {
 
     expect(spyOnDispatch).toHaveBeenCalledWith(new SetOnToggleCheckboxView());
   });
+
+  it('onToggleStyleProperty() should change styleProperty to false', () => {
+    component.onToggleStyleProperty();
+
+    expect(component.styleProperty).toBeFalse();
+  });
 });

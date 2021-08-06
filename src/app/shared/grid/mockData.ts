@@ -405,7 +405,7 @@ export const mockData = {
         channelId: 'UCojsj6T5tNPGPZSx7wn4coQ',
         title: 'Being a TDS PRO with a level 0 tower | ROBLOX',
         description:
-          'in tower defense simulator demoman is a level 0 tower, that will outperform minigunner, accelerator, turret, and other high rank towers in certain situations. and ...',
+          'in tower defense simulator',
         thumbnails: {
           default: {
             url: 'https://i.ytimg.com/vi/MawvYBa_1Mo/default.jpg',

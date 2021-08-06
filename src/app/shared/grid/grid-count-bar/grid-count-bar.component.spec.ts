@@ -1,6 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { GridCountBarComponent } from './grid-count-bar.component';
+import {IStatusPanelParams} from '@ag-grid-community/all-modules';
+import {mockGridRowParams} from '../../mock-test-data/mock-test-data.constant';
+import {GridComponent} from '../grid.component';
 
 describe('GridCountBarComponent', () => {
   let component: GridCountBarComponent;
@@ -9,7 +12,7 @@ describe('GridCountBarComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [GridCountBarComponent],
-    }).compileComponents();
+    }).overrideTemplate(GridCountBarComponent, `<div></div>`);
   });
 
   beforeEach(() => {
@@ -28,9 +31,26 @@ describe('GridCountBarComponent', () => {
     expect(app.visible).toBeTruthy();
   });
 
-  it('should contain <p>', () => {
-    fixture.detectChanges();
+  // it('should contain <p>', () => {
+  //   fixture.detectChanges();
+  //
+  //   expect(fixture.nativeElement.querySelector('p').innerText).toBe('Selected records:');
+  // });
 
-    expect(fixture.nativeElement.querySelector('p').innerText).toBe('Selected records:');
+  it('agInit() should init params', () => {
+    component.agInit(mockGridRowParams as IStatusPanelParams);
+
+    expect(component['params']).toBeTruthy();
   });
+
+  it('setVisible() should assign false to visible', () => {
+    component.setVisible(false);
+
+    expect(component.visible).toBeFalse();
+  });
+
+  it('isVisible() should return visible equal true', () => {
+    expect(component.isVisible()).toBeTruthy();
+  });
+
 });

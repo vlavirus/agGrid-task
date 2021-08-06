@@ -7,6 +7,8 @@ import { YoutubeApiService } from '../services/youtube-api.service';
 import { GridComponent } from './grid.component';
 import { columnDefsConst, statusBarConst } from './grid.constant';
 import { GridService } from './grid.service';
+import {GridServiceStub, mockApiContextMenuItems, mockGridContextMenu} from '../mock-test-data/mock-test-data.constant';
+import {GetContextMenuItemsParams} from '@ag-grid-community/core';
 
 describe('GridComponent', () => {
   let component: GridComponent;
@@ -35,12 +37,6 @@ describe('GridComponent', () => {
     },
   };
 
-  const mockGridService = jasmine.createSpyObj('gridService', [
-    'getToggleCheckboxView',
-    'getRowData',
-    'selectionChanged',
-  ]);
-
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [HttpClientTestingModule, StoreModule.forRoot({}, {})],
@@ -50,7 +46,7 @@ describe('GridComponent', () => {
         HttpClientTestingModule,
         {
           provide: GridService,
-          useValue: mockGridService,
+          useClass: GridServiceStub,
         },
         provideMockStore({
           initialState: {
@@ -93,8 +89,15 @@ describe('GridComponent', () => {
   });
 
   it('onSelectionChanged() should call selectionChanged from gridService', () => {
+    const spy = spyOn(gridService, 'selectionChanged').and.callThrough();
+    component.onSelectionChanged(mockParamsRowsEqual);
     gridService.selectionChanged(mockParamsRowsEqual);
 
-    expect(gridService.selectionChanged).toHaveBeenCalled();
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('getContextMenuItems() should return default  items', () => {
+
+    expect(component.getContextMenuItems(mockGridContextMenu as unknown as GetContextMenuItemsParams)).toEqual(mockApiContextMenuItems);
   });
 });

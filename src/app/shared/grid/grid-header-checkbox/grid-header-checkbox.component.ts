@@ -2,10 +2,10 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { IStatusPanelParams } from '@ag-grid-community/all-modules';
 
 import { State, getToggleCheckboxState } from 'src/app/store';
 import { SetOnToggleCheckboxState } from 'src/app/store/core.actions';
-import { IStatusPanelParams } from '@ag-grid-community/all-modules';
 
 @Component({
   selector: 'app-grid-header-checkbox',
@@ -13,7 +13,7 @@ import { IStatusPanelParams } from '@ag-grid-community/all-modules';
   styleUrls: ['./grid-header-checkbox.component.scss'],
 })
 export class GridHeaderCheckboxComponent implements OnInit, OnDestroy {
-  private params: IStatusPanelParams | undefined;
+  public params!: IStatusPanelParams;
 
   public checkboxState = false;
 

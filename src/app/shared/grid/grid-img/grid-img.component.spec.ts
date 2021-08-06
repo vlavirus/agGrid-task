@@ -1,9 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { IStatusPanelParams } from '@ag-grid-community/all-modules';
 import { ICellRendererParams } from '@ag-grid-community/core';
 import { GridImgComponent } from './grid-img.component';
-import {GridComponent} from '../grid.component';
 
 describe('GridImgComponent', () => {
   let component: GridImgComponent;
@@ -30,16 +28,10 @@ describe('GridImgComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  // it('should render img', () => {
-  //   fixture.detectChanges();
-  //
-  //   expect(fixture.nativeElement.querySelector('img')).toBeTruthy();
-  // });
-
   it('agInit() should init params', () => {
     component.agInit(mockParams as IStatusPanelParams);
 
-    expect(component['params']).toBeTruthy();
+    expect(component.params).toBeTruthy();
   });
 
   it('refresh() should return false', () => {

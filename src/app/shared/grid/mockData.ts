@@ -404,8 +404,7 @@ export const mockData = {
         publishedAt: '2021-07-26T00:33:13Z',
         channelId: 'UCojsj6T5tNPGPZSx7wn4coQ',
         title: 'Being a TDS PRO with a level 0 tower | ROBLOX',
-        description:
-          'in tower defense simulator',
+        description: 'in tower defense simulator',
         thumbnails: {
           default: {
             url: 'https://i.ytimg.com/vi/MawvYBa_1Mo/default.jpg',

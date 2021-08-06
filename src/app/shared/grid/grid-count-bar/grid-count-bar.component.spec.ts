@@ -1,9 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { IStatusPanelParams } from '@ag-grid-community/all-modules';
 
 import { GridCountBarComponent } from './grid-count-bar.component';
-import {IStatusPanelParams} from '@ag-grid-community/all-modules';
-import {mockGridRowParams} from '../../mock-test-data/mock-test-data.constant';
-import {GridComponent} from '../grid.component';
+import { mockGridRowParams } from '../../mock-test-data/mock-test-data.constant';
 
 describe('GridCountBarComponent', () => {
   let component: GridCountBarComponent;
@@ -31,16 +30,10 @@ describe('GridCountBarComponent', () => {
     expect(app.visible).toBeTruthy();
   });
 
-  // it('should contain <p>', () => {
-  //   fixture.detectChanges();
-  //
-  //   expect(fixture.nativeElement.querySelector('p').innerText).toBe('Selected records:');
-  // });
-
   it('agInit() should init params', () => {
     component.agInit(mockGridRowParams as IStatusPanelParams);
 
-    expect(component['params']).toBeTruthy();
+    expect(component.params).toBeTruthy();
   });
 
   it('setVisible() should assign false to visible', () => {
@@ -52,5 +45,4 @@ describe('GridCountBarComponent', () => {
   it('isVisible() should return visible equal true', () => {
     expect(component.isVisible()).toBeTruthy();
   });
-
 });

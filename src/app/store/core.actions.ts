@@ -5,7 +5,6 @@ export const ON_TOGGLE_CHECKBOX_VIEW = '[Core]On toggle checkbox view';
 export const ON_TOGGLE_CHECKBOX_STATE = '[Core]On toggle checkbox state';
 export const LOAD_GRID_ITEMS = '[Core]Load grid items';
 export const LOAD_GRID_ITEMS_SUCCESS = '[Core]Load grid items success';
-export const LOAD_GRID_ITEMS_FAIL = '[Core]Load grid items fail';
 
 export class SetOnToggleCheckboxView implements Action {
   readonly type = ON_TOGGLE_CHECKBOX_VIEW;
@@ -26,15 +25,8 @@ export class LoadGridItemsSuccess implements Action {
   constructor(public payload: ApiTransformDataModel[]) {}
 }
 
-export class LoadGridItemsFail implements Action {
-  readonly type = LOAD_GRID_ITEMS_FAIL;
-
-  constructor(public payload: any) {}
-}
-
 export type Actions =
   | SetOnToggleCheckboxView
   | SetOnToggleCheckboxState
   | LoadGridItems
-  | LoadGridItemsSuccess
-  | LoadGridItemsFail;
+  | LoadGridItemsSuccess;

@@ -1,5 +1,4 @@
 import * as coreActions from './core.actions';
-import { LOAD_GRID_ITEMS_FAIL, LOAD_GRID_ITEMS_SUCCESS } from './core.actions';
 import { ApiTransformDataModel } from '../shared/models/api-transform-data.model';
 
 export interface State {
@@ -22,8 +21,6 @@ export function coreReducer(state: State = INIT_STATE, actions: coreActions.Acti
       return { ...state, toggleCheckboxState: actions.payload } as State;
     case coreActions.LOAD_GRID_ITEMS_SUCCESS:
       return { ...state, gridItems: actions.payload } as State;
-    case LOAD_GRID_ITEMS_FAIL:
-      return { ...state } as State;
     default:
       return state;
   }

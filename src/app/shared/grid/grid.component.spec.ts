@@ -3,12 +3,19 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { StoreModule } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
 
+import { GetContextMenuItemsParams } from '@ag-grid-community/core';
 import { YoutubeApiService } from '../services/youtube-api.service';
 import { GridComponent } from './grid.component';
 import { columnDefsConst, statusBarConst } from './grid.constant';
 import { GridService } from './grid.service';
-import {GridServiceStub, mockApiContextMenuItems, mockGridContextMenu} from '../mock-test-data/mock-test-data.constant';
-import {GetContextMenuItemsParams} from '@ag-grid-community/core';
+import {
+  defaultMockStore,
+  GridServiceStub,
+  mockApiContextActionMenuItems,
+  mockApiContextMenuItems,
+  mockGridContextMenu,
+  mockGridContextWithActionMenu,
+} from '../mock-test-data/mock-test-data.constant';
 
 describe('GridComponent', () => {
   let component: GridComponent;
@@ -48,13 +55,7 @@ describe('GridComponent', () => {
           provide: GridService,
           useClass: GridServiceStub,
         },
-        provideMockStore({
-          initialState: {
-            toggleCheckboxView: true,
-            gridItems: [mockGridItem],
-            toggleCheckboxState: false,
-          },
-        }),
+        provideMockStore(defaultMockStore),
       ],
     }).overrideTemplate(GridComponent, `<div></div>`);
   });
@@ -97,7 +98,18 @@ describe('GridComponent', () => {
   });
 
   it('getContextMenuItems() should return default  items', () => {
+    const expected = component.getContextMenuItems(
+      mockGridContextMenu as unknown as GetContextMenuItemsParams,
+    );
 
-    expect(component.getContextMenuItems(mockGridContextMenu as unknown as GetContextMenuItemsParams)).toEqual(mockApiContextMenuItems);
+    expect(expected).toEqual(mockApiContextMenuItems);
+  });
+
+  it('getContextMenuItems() should return default items with action', () => {
+    const expected = component.getContextMenuItems(
+      mockGridContextWithActionMenu as unknown as GetContextMenuItemsParams,
+    );
+
+    expect(JSON.stringify(expected)).toEqual(JSON.stringify(mockApiContextActionMenuItems));
   });
 });

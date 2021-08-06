@@ -9,7 +9,7 @@ export const mockGridApiParams = {
   api: {
     selectAll: () => 50,
     deselectAll: () => new Array(50),
-  }
+  },
 };
 
 export const mockGridItem = {
@@ -26,32 +26,54 @@ export const defaultMockStore = {
       toggleCheckboxView: true,
       gridItems: [mockGridItem],
       toggleCheckboxState: false,
-    }
-  }
+    },
+  },
 };
 
-export const mockApiContextMenuItems = [
+export const mockApiContextMenuItems = ['copy', 'copyWithHeaders', 'paste', 'separator', 'export'];
+
+export const mockApiContextActionMenuItems = [
   'copy',
   'copyWithHeaders',
   'paste',
   'separator',
-  'export'
+  'export',
+  {
+    name: 'Open in new tab',
+    action: () => {
+      window.open(`https://www.youtube.com/watch?v=${'testId'}`, '_blank');
+    },
+  },
 ];
 
 export const mockGridContextMenu = {
   node: {
     data: {
-      videoId: 'test2'
-    }
+      videoId: 'test2',
+    },
   },
   column: {
-    getColId: () => 2,
+    getColId: () => 'test',
   },
-  defaultItems: mockApiContextMenuItems
+  defaultItems: mockApiContextMenuItems,
+};
+
+export const mockGridContextWithActionMenu = {
+  node: {
+    data: {
+      videoId: 'testId',
+    },
+  },
+  column: {
+    getColId: () => 'title',
+  },
+  defaultItems: mockApiContextActionMenuItems,
 };
 
 export class GridServiceStub {
   selectionChanged = () => {};
+
   getRowData = () => {};
+
   getToggleCheckboxView = () => {};
 }

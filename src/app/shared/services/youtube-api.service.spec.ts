@@ -1,10 +1,10 @@
 import { TestBed } from '@angular/core/testing';
-
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { HttpClient } from '@angular/common/http';
+import { of } from 'rxjs';
+
 import { YoutubeApiService } from './youtube-api.service';
-import {HttpClient} from '@angular/common/http';
-import {mockData} from '../grid/mockData';
-import {of} from 'rxjs';
+import { mockData } from '../grid/mockData';
 
 describe('YoutubeApiService', () => {
   let service: YoutubeApiService;
@@ -14,9 +14,7 @@ describe('YoutubeApiService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
-      providers: [
-        HttpClient
-      ]
+      providers: [HttpClient],
     });
     service = TestBed.inject(YoutubeApiService);
   });

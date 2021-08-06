@@ -1,10 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
 import { AgGridModule } from 'ag-grid-angular';
-// import { AgGridModule } from 'ag-grid-enterprise';
-// import { AllModules } from '@ag-grid-enterprise/all-modules';
-// import { AllModules } from '@ag-grid-enterprise/all-modules';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { StoreModule } from '@ngrx/store';
@@ -21,6 +17,7 @@ import { GridHeaderCheckboxComponent } from './shared/grid/grid-header-checkbox/
 import { environment } from '../environments/environment';
 import { CoreModule } from './store/core.module';
 import { YoutubeApiService } from './shared/services/youtube-api.service';
+
 @NgModule({
   declarations: [
     AppComponent,

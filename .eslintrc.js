@@ -17,12 +17,9 @@ module.exports = {
       parserOptions: {
         project: "./src/tsconfig.spec.json",
       },
-      // Правила для линтера
       extends: ["plugin:jasmine/recommended"],
-      // Плагин для запуска правил
       plugins: ["jasmine"],
       env: {jasmine: true},
-      // Отключим правило "no-unused-vars"
       rules: {
         "@typescript-eslint/no-unused-vars": "off",
       },
@@ -37,7 +34,6 @@ module.exports = {
       },
       extends: [
         "plugin:@angular-eslint/recommended",
-        // Стайл гайд AirBnB
         "airbnb-typescript/base",
         "prettier",
         "plugin:prettier/recommended"

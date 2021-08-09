@@ -49,11 +49,4 @@ describe('GridService', () => {
 
     expect(spy).toHaveBeenCalledWith(mockGridRowParams);
   });
-
-  // it('selectionChanged() should dispatch SetOnToggleCheckboxState(false) if rows not equal', () => {
-  //   const spyOnDispatch = spyOn(mockStore, 'dispatch');
-  //   service.selectionChanged(mockParamsRowsNotEqual);
-  //
-  //   expect(spyOnDispatch).toHaveBeenCalledWith(new SetOnToggleCheckboxState(false));
-  // });
 });
